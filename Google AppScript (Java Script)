@@ -1,18 +1,40 @@
 function getEmails() {
   //SpreadsheetApp.create('Emails');
-//creating constants (spreadsheet; inbox; spreadsheet sheet)
-  const ss = SpreadsheetApp.openById('xxx');
+  //creating constants (spreadsheet; inbox; spreadsheet sheet)
+  const ss = SpreadsheetApp.openById('xxxxx');
   const threads = GmailApp.getInboxThreads();
   const allEmails = ss.getSheetByName('AllEmails');
-  allEmails.getRange(1,1).setValue('Email Subject')
-//creating loop to read email "i" is for the code to know where to start
+
+  //giving a name to the first cell and formating it as a header
+  allEmails.getRange(1,1).setValue('Email Subject').setBackground("orange").setFontWeight("bold").setFontSize(11);
+  allEmails.getRange(1,2).setValue('Email From').setBackground("orange").setFontWeight("bold").setFontSize(11);
+  allEmails.getRange(1,3).setValue('Email Date').setBackground("orange").setFontWeight("bold").setFontSize(11);
+
+  //creating loop to read email "i" is for the code to know where to start
   for (var i = 0; i < threads.length; i++) {
-//returning the subject of the email thread 
-    var values = threads[i].getFirstMessageSubject();
-//getting the range in the spreadsheet tab according to the "i" the loop is going through  
-    var range = allEmails.getRange(i+2,1);
-//putting the subject of the email in a cell of the spreadsheet before the loop restarts for the next subject
-    range.setValue(values);
+
+    //returning the subject of the email thread 
+    var subjects = threads[i].getFirstMessageSubject();
+
+    //getting the range in the spreadsheet tab according to the "i" the loop is going through  
+    var subjectRange = allEmails.getRange(i+2,1);
+
+    //putting the subject of the email in a cell of the spreadsheet before the loop restarts for the next subject
+    subjectRange.setValue(subjects);
+
+    //returning the sender of the email thread 
+    var emailFrom = threads[i].getMessages()[0].getFrom();
+    //getting the range in the spreadsheet tab according to the "i" the loop is going through  
+    var senderRange = allEmails.getRange(i+2,2);
+    //putting the email of the person who sent the mail in a cell of the spreadsheet before the loop restarts for the next subject
+    senderRange.setValue(emailFrom);
+
+    //returning the date of the email thread 
+    var emailDate = threads[i].getLastMessageDate();
+    //getting the range in the spreadsheet tab according to the "i" the loop is going through  
+    var dateRange = allEmails.getRange(i+2,3);
+    //putting the date of the email in a cell of the spreadsheet before the loop restarts for the next subject
+    dateRange.setValue(emailDate);
   }
   
 }
