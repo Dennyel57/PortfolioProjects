@@ -1,3 +1,4 @@
+-- this code is not original and I do not take credit for making it
 Select *
 From CovidDeaths
 order by 3,4
