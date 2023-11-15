@@ -1,0 +1,18 @@
+function getEmails() {
+  //SpreadsheetApp.create('Emails');
+//creating constants (spreadsheet; inbox; spreadsheet sheet)
+  const ss = SpreadsheetApp.openById('xxx');
+  const threads = GmailApp.getInboxThreads();
+  const allEmails = ss.getSheetByName('AllEmails');
+  allEmails.getRange(1,1).setValue('Email Subject')
+//creating loop to read email "i" is for the code to know where to start
+  for (var i = 0; i < threads.length; i++) {
+//returning the subject of the email thread 
+    var values = threads[i].getFirstMessageSubject();
+//getting the range in the spreadsheet tab according to the "i" the loop is going through  
+    var range = allEmails.getRange(i+2,1);
+//putting the subject of the email in a cell of the spreadsheet before the loop restarts for the next subject
+    range.setValue(values);
+  }
+  
+}
